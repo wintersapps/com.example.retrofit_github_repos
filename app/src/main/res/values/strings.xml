@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Retrofit GitHub Repos</string>
+    <string name="oauthUrl">https://github.com/login/oauth/authorize</string>
+    <string name="clientId"></string>
+    <string name="clientSecret"></string>
+    <string name="callbackUrl"></string>
+    <string name="authenticate">Authenticate</string>
+    <string name="load_user_repositories">Load user repositories</string>
+    <string name="your_comment">Your comment</string>
+    <string name="send_comment">Send comment</string>
+</resources>
