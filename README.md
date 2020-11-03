@@ -4,12 +4,12 @@ A sample Android application displaying repositories, pull requests and comments
 
 Technologies and solutions used:
 
-Material Design
-LiveData
-Retrofit
-RxKotlin
-RxAndroid
-OkHttp
-GitHub OAuth
-Data Binding
-View Binding
+- Material Design
+- LiveData
+- Retrofit
+- RxKotlin
+- RxAndroid
+- OkHttp
+- GitHub OAuth
+- Data Binding
+- View Binding
