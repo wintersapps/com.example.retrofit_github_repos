@@ -20,7 +20,6 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:onClick="onAuthenticate"
             android:text="@string/authenticate"/>
 
         <com.google.android.material.button.MaterialButton
@@ -29,7 +28,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:enabled="false"
-            android:onClick="onLoadRepos"
             android:text="@string/load_user_repositories"/>
 
         <Spinner
@@ -81,7 +79,6 @@
             android:layout_height="wrap_content"
             android:enabled="false"
             android:layout_margin="10dp"
-            android:onClick="onPostComment"
             android:text="@string/send_comment"/>
 
     </LinearLayout>

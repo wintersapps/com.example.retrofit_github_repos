@@ -76,7 +76,39 @@ class MainActivity : AppCompatActivity() {
                 arrayListOf("Please select PR"))
 
 
+        setListeners()
         observeViewModel()
+    }
+
+    private fun setListeners()
+    {
+        binding.authenticateButton.setOnClickListener {
+            val oauthUrl = getString(R.string.oauthUrl)
+            val clientId = getString(R.string.clientId)
+            val callBackUrl = getString(R.string.callbackUrl)
+            val intent = Intent(Intent.ACTION_VIEW,
+                    Uri.parse("$oauthUrl?client_id=$clientId&scope=repo&redirect_uri=$callBackUrl"))
+            startActivity(intent)
+        }
+
+        binding.loadReposButton.setOnClickListener {
+            token?.let {
+                viewModel.onLoadRepositories(it)
+            }
+        }
+
+        binding.postCommentButton.setOnClickListener {
+            val comment = binding.commentET.text.toString()
+            if(comment.isNotEmpty()){
+                val currentRepo = binding.repositoriesSpinner.selectedItem as GitHubRepo
+                val currentPullRequest = binding.prsSpinner.selectedItem as GitHubPullRequest
+                token?.let {
+                    viewModel.onPostComment(it, currentRepo, currentPullRequest.number, GitHubComment(comment, null))
+                }
+            }else{
+                Toast.makeText(binding.root.context, "Please enter a comment", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     private fun observeViewModel() {
@@ -136,6 +168,14 @@ class MainActivity : AppCompatActivity() {
                         adapter = spinnerAdapter
                         isEnabled = false
                     }
+                    val spinnerAdapterTwo = ArrayAdapter(binding.root.context,
+                            android.R.layout.simple_spinner_dropdown_item,
+                            arrayListOf("Pull request has no comments")
+                    )
+                    binding.commentsSpinner.apply {
+                        adapter = spinnerAdapterTwo
+                        isEnabled = false
+                    }
                 }
             }
         })
@@ -192,15 +232,6 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    fun onAuthenticate() {
-        val oauthUrl = getString(R.string.oauthUrl)
-        val clientId = getString(R.string.clientId)
-        val callBackUrl = getString(R.string.callbackUrl)
-        val intent = Intent(Intent.ACTION_VIEW,
-                Uri.parse("$oauthUrl?client_id=$clientId&scope=repo&redirect_uri=$callBackUrl"))
-        startActivity(intent)
-    }
-
     override fun onResume() {
         super.onResume()
         val uri = intent.data
@@ -214,25 +245,6 @@ class MainActivity : AppCompatActivity() {
                     viewModel.getToken(clientId, clientSecret, code)
                 }
             }
-        }
-    }
-
-    fun onLoadRepos() {
-        token?.let {
-            viewModel.onLoadRepositories(it)
-        }
-    }
-
-    fun onPostComment() {
-        val comment = binding.commentET.text.toString()
-        if(comment.isNotEmpty()){
-            val currentRepo = binding.repositoriesSpinner.selectedItem as GitHubRepo
-            val currentPullRequest = binding.prsSpinner.selectedItem as GitHubPullRequest
-            token?.let {
-                viewModel.onPostComment(it, currentRepo, currentPullRequest.number, GitHubComment(comment, null))
-            }
-        }else{
-            Toast.makeText(binding.root.context, "Please enter a comment", Toast.LENGTH_LONG).show()
         }
     }
 }
